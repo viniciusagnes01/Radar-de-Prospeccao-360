@@ -1,0 +1,9 @@
+'use client';
+import { useState } from 'react';
+import { Search } from 'lucide-react';
+import { LeadTable } from '../../components/LeadTable';
+import { mockLeads } from '../../data/mock-leads';
+export default function SearchPage() {
+  const [hasSearched, setHasSearched] = useState(false);
+  return <main className="mx-auto max-w-6xl px-6 py-10"><div className="mb-8"><p className="text-sm font-semibold uppercase tracking-widest text-brand-600">Busca</p><h1 className="mt-2 text-3xl font-bold text-slate-950">Encontrar oportunidades</h1><p className="mt-2 text-slate-600">Digite cidade e nicho. No MVP, a tela usa dados mockados; a API já está preparada para integrar com Google Places.</p></div><form className="grid gap-4 rounded-2xl border bg-white p-5 shadow-sm md:grid-cols-5" onSubmit={(event) => { event.preventDefault(); setHasSearched(true); }}><label className="text-sm font-medium text-slate-700">Cidade<input className="mt-2 w-full rounded-xl border px-3 py-2" defaultValue="Campinas" /></label><label className="text-sm font-medium text-slate-700">Estado<input className="mt-2 w-full rounded-xl border px-3 py-2" defaultValue="SP" /></label><label className="text-sm font-medium text-slate-700 md:col-span-2">Nicho<input className="mt-2 w-full rounded-xl border px-3 py-2" defaultValue="Clínica odontológica" /></label><label className="text-sm font-medium text-slate-700">Limite<input className="mt-2 w-full rounded-xl border px-3 py-2" type="number" defaultValue={50} /></label><button className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-5 py-3 font-semibold text-white hover:bg-brand-700 md:col-span-5"><Search size={18} /> Buscar oportunidades</button></form>{hasSearched ? <section className="mt-8"><h2 className="mb-4 text-xl font-bold">Empresas encontradas</h2><LeadTable leads={mockLeads} /></section> : null}</main>;
+}
