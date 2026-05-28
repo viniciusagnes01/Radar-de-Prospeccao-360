@@ -3,4 +3,6 @@
 @tailwind utilities;
 
 :root { color-scheme: light; }
+html { scroll-behavior: smooth; }
 body { background: #f8fafc; color: #0f172a; }
+* { box-sizing: border-box; }

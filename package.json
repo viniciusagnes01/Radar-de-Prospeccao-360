@@ -1,12 +1,14 @@
 {
-  "name": "radar-prospeccao-360",
-  "version": "0.1.0",
+  "name": "radar-prospeccao-360-v4",
+  "version": "1.0.0",
   "private": true,
+  "description": "Radar de Prospecção 360 - Modo V4 ON: busca cidade+nicho, diagnóstico digital, score 360 e operação comercial.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@types/node": "^20.12.7",
@@ -23,7 +25,8 @@
     "react-dom": "^18.2.0",
     "recharts": "^2.12.7",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "zod": "^3.23.8"
   },
   "devDependencies": {}
 }

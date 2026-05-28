@@ -1,4 +1,28 @@
 export type Priority = 'Muito alta' | 'Alta' | 'Média' | 'Baixa';
+export type LeadStatus = 'Novo' | 'Validar' | 'Validado' | 'Abordado' | 'Follow-up' | 'Reunião agendada' | 'Proposta' | 'Ganho' | 'Perdido';
+
+export type SearchInput = {
+  city: string;
+  state: string;
+  niche: string;
+  radiusKm?: number;
+  limit?: number;
+  minScore?: number;
+};
+
+export type DigitalSignals = {
+  hasWebsite: boolean;
+  hasWhatsApp: boolean;
+  hasForm: boolean;
+  hasTracking: boolean;
+  hasGoogleTagManager: boolean;
+  hasMetaPixel: boolean;
+  hasInstagram: boolean;
+  hasFacebook: boolean;
+  hasLinkedin: boolean;
+  adsDetected: boolean;
+  lastSocialPostDays?: number;
+};
 
 export type Lead = {
   id: string;
@@ -16,20 +40,19 @@ export type Lead = {
   instagram?: string;
   facebook?: string;
   linkedin?: string;
-  hasWhatsApp?: boolean;
-  hasForm?: boolean;
-  hasTracking?: boolean;
-  adsDetected?: boolean;
-  lastSocialPostDays?: number;
+  digital: DigitalSignals;
   score360: number;
   priority: Priority;
   mainPain: string;
   suggestedOffer: string;
   suggestedMessage: string;
-  status: 'Novo' | 'Validado' | 'Abordado' | 'Reunião agendada' | 'Proposta' | 'Ganho' | 'Perdido';
+  qualificationReason: string;
+  status: LeadStatus;
   owner?: string;
   nextStep?: string;
   nextStepDate?: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type ScoreBreakdown = {
@@ -40,4 +63,11 @@ export type ScoreBreakdown = {
   investmentSignals: number;
   total: number;
   priority: Priority;
+  reasons: string[];
+};
+
+export type FunnelColumn = {
+  status: LeadStatus;
+  title: string;
+  description: string;
 };

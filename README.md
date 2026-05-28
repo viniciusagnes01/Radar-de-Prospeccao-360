@@ -1,27 +1,34 @@
-# Radar de Prospecção 360
+# Radar de Prospecção 360 - Modo V4 ON
 
-Dashboard inteligente para encontrar empresas por cidade e nicho, enriquecer dados públicos, avaliar presença digital e priorizar oportunidades comerciais.
+Sistema para encontrar empresas por **cidade + nicho**, diagnosticar presença digital, calcular **Score 360**, priorizar abordagem e organizar a operação comercial.
 
-## Objetivo
+## O que esse projeto entrega
 
-O Radar de Prospecção 360 ajuda o time comercial a responder:
+- Busca de oportunidades por cidade e nicho.
+- Integração server-side com Google Places API.
+- Fallback com dados mockados para demonstração.
+- Auditoria inicial de site: WhatsApp, formulário, tracking, GTM, Meta Pixel e links sociais.
+- Score 360 com pilares comerciais.
+- Diagnóstico individual por lead.
+- Mensagem sugerida para SDR validar.
+- Pipeline comercial estilo kanban.
+- Exportação CSV modelo.
+- Documentação de produto, arquitetura, score, banco e roadmap.
 
-- Quem devo abordar primeiro?
-- Por que essa empresa é uma boa oportunidade?
-- Qual dor digital aparente ela tem?
-- Qual oferta faz mais sentido?
-- Qual mensagem inicial posso usar?
+## Fluxo V4
 
-## Stack do MVP
+```txt
+Cidade + nicho
+  -> busca de empresas
+  -> enriquecimento digital
+  -> Score 360
+  -> dor principal
+  -> oferta sugerida
+  -> mensagem SDR
+  -> pipeline de abordagem
+```
 
-- Next.js 14
-- TypeScript
-- Tailwind CSS
-- Mock de leads para demonstração
-- Estrutura preparada para Google Places API
-- Score 360 em regra de negócio local
-
-## Como rodar localmente
+## Rodar localmente
 
 ```bash
 npm install
@@ -29,49 +36,63 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Depois acesse:
+Abra:
 
-```bash
+```txt
 http://localhost:3000
 ```
 
-## Rotas principais
+## Configurar busca real no Google Places
 
-| Rota | Função |
-|---|---|
-| `/` | Landing interna do produto |
-| `/search` | Busca por cidade e nicho |
-| `/dashboard` | Visão executiva das oportunidades |
-| `/leads/[id]` | Diagnóstico 360 individual |
-| `/api/search` | Endpoint para busca/enriquecimento |
-| `/api/leads` | Endpoint para listar leads mockados |
-
-## Fluxo operacional V4
-
-1. Buscar cidade + nicho.
-2. Gerar lista de empresas.
-3. Enriquecer presença digital.
-4. Calcular score 360.
-5. Validar leads de prioridade alta.
-6. Gerar diagnóstico rápido.
-7. Criar mensagem contextual.
-8. Enviar para CRM/funil.
-9. Acompanhar próximo passo.
-
-## Integração com Google Places
-
-A função base está em `lib/google-places.ts`.
-
-Para ativar, crie `.env.local` e defina:
+No `.env.local`:
 
 ```bash
 GOOGLE_MAPS_API_KEY=sua_chave
 ```
 
-Depois substitua o mock em `app/api/search/route.ts` pela chamada real `searchGooglePlaces`.
+Na Vercel, cadastre a mesma variável em **Project Settings > Environment Variables**.
 
-## Regra de ouro
+Sem essa chave, o sistema usa os mocks de `data/mock-leads.ts`.
 
-O dashboard não existe para mostrar dados. Ele existe para priorizar ação comercial.
+## Páginas
 
-Cada oportunidade precisa sair com prioridade, motivo, dor, oferta, mensagem e próximo passo.
+| Rota | Função |
+|---|---|
+| `/` | Visão do produto |
+| `/search` | Busca cidade + nicho |
+| `/dashboard` | Ranking e KPIs |
+| `/pipeline` | Kanban comercial |
+| `/leads/[id]` | Diagnóstico 360 individual |
+| `/api/search` | Endpoint de busca/enriquecimento |
+| `/api/leads` | Lista mockada |
+| `/api/export/csv` | Exportação CSV modelo |
+
+## Estrutura
+
+```txt
+app/              Rotas e APIs Next.js
+components/       Componentes visuais
+lib/              Score, diagnóstico, Google Places e auditoria
+data/             Dados mockados
+docs/             Documentação de produto e operação
+supabase/         Modelo de banco para persistência futura
+```
+
+## Onde mexer primeiro
+
+1. `lib/google-places.ts` - busca real de empresas.
+2. `lib/scoring.ts` - regras do Score 360.
+3. `lib/diagnostics.ts` - dores, ofertas e mensagens.
+4. `app/api/search/route.ts` - orquestração da busca.
+5. `data/mock-leads.ts` - dados de demonstração.
+
+## Próximas evoluções recomendadas
+
+- Persistência com Supabase/Postgres.
+- Login por usuário/time.
+- Histórico de buscas.
+- Envio de leads para CRM.
+- Integração com Meta Ad Library.
+- Enriquecimento de decisores via LinkedIn/manual.
+- Geração de relatório PDF por lead.
+- Fila de follow-up por responsável.
