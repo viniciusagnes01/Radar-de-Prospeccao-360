@@ -35,6 +35,8 @@ export type Lead = {
   phone?: string;
   website?: string;
   googleMapsUrl?: string;
+  latitude?: number;
+  longitude?: number;
   googleRating?: number;
   googleReviews?: number;
   instagram?: string;

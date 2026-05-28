@@ -1,21 +1,51 @@
+'use client';
+
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { Shell } from '../../../components/Shell';
 import { PriorityBadge } from '../../../components/PriorityBadge';
 import { ScoreBreakdown } from '../../../components/ScoreBreakdown';
 import { mockLeads } from '../../../data/mock-leads';
 import { calculateScore } from '../../../lib/scoring';
+import { Lead } from '../../../lib/types';
 
 export default function LeadDetailPage({ params }: { params: { id: string } }) {
-  const lead = mockLeads.find((item) => item.id === params.id);
-  if (!lead) notFound();
+  const [storedLeads, setStoredLeads] = useState<Lead[]>([]);
+
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem('radar:v4:last-search-leads');
+      if (raw) setStoredLeads(JSON.parse(raw));
+    } catch {
+      setStoredLeads([]);
+    }
+  }, []);
+
+  const lead = useMemo(() => {
+    return [...storedLeads, ...mockLeads].find((item) => item.id === params.id);
+  }, [params.id, storedLeads]);
+
+  if (!lead) {
+    return (
+      <Shell>
+        <main className="mx-auto max-w-3xl px-6 py-16">
+          <Link href="/search" className="mb-6 inline-flex items-center gap-2 text-sm font-bold text-v4-700"><ArrowLeft size={16} /> Voltar para busca</Link>
+          <div className="rounded-3xl border bg-white p-8 text-center shadow-sm">
+            <h1 className="text-2xl font-black text-slate-950">Lead não encontrado nesta sessão</h1>
+            <p className="mt-2 text-slate-600">Refaça a busca ou abra um lead da base demonstrativa. No próximo passo, conecte Supabase para persistência permanente.</p>
+          </div>
+        </main>
+      </Shell>
+    );
+  }
+
   const score = calculateScore(lead);
 
   return (
     <Shell>
       <main className="mx-auto max-w-6xl px-6 py-10">
-        <Link href="/dashboard" className="mb-6 inline-flex items-center gap-2 text-sm font-bold text-v4-700"><ArrowLeft size={16} /> Voltar</Link>
+        <Link href="/search" className="mb-6 inline-flex items-center gap-2 text-sm font-bold text-v4-700"><ArrowLeft size={16} /> Voltar</Link>
 
         <div className="rounded-3xl border bg-white p-8 shadow-sm">
           <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">

@@ -96,3 +96,26 @@ supabase/         Modelo de banco para persistência futura
 - Enriquecimento de decisores via LinkedIn/manual.
 - Geração de relatório PDF por lead.
 - Fila de follow-up por responsável.
+
+
+## Google Maps funcional
+
+A versão atual usa:
+
+- `GOOGLE_MAPS_API_KEY` no backend para Places API Text Search;
+- `NEXT_PUBLIC_GOOGLE_MAPS_BROWSER_KEY` no frontend para renderizar o mapa com `@googlemaps/js-api-loader`;
+- `NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID` opcional para Map ID.
+
+Veja o guia completo em `docs/07-google-maps-setup.md`.
+
+Fluxo funcional:
+
+```txt
+/search
+→ POST /api/search
+→ lib/google-places.ts
+→ Places API Text Search
+→ enriquecimento + score
+→ lista + mapa + diagnóstico
+```
+

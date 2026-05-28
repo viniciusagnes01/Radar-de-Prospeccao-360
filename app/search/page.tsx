@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Loader2, Search } from 'lucide-react';
 import { Shell } from '../../components/Shell';
 import { LeadTable } from '../../components/LeadTable';
+import { OpportunitiesMap } from '../../components/OpportunitiesMap';
 import { Lead } from '../../lib/types';
 
 export default function SearchPage() {
@@ -32,7 +33,11 @@ export default function SearchPage() {
       return;
     }
 
-    setLeads(data.leads ?? []);
+    const nextLeads = data.leads ?? [];
+    setLeads(nextLeads);
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('radar:v4:last-search-leads', JSON.stringify(nextLeads));
+    }
   }
 
   return (
@@ -64,7 +69,12 @@ export default function SearchPage() {
             </div>
             {leads.length ? <a href="/api/export/csv" className="rounded-xl border bg-white px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50">Exportar CSV modelo</a> : null}
           </div>
-          {leads.length ? <LeadTable leads={leads} /> : <EmptyState />}
+          {leads.length ? (
+            <>
+              <OpportunitiesMap leads={leads} />
+              <div className="mt-6"><LeadTable leads={leads} /></div>
+            </>
+          ) : <EmptyState />}
         </section>
       </main>
     </Shell>

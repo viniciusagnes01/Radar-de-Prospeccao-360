@@ -61,6 +61,8 @@ export async function POST(request: NextRequest) {
         phone: baseLead.phone,
         website: baseLead.website,
         googleMapsUrl: baseLead.googleMapsUrl,
+        latitude: baseLead.latitude,
+        longitude: baseLead.longitude,
         googleRating: baseLead.googleRating,
         googleReviews: baseLead.googleReviews,
         instagram: baseLead.instagram,

@@ -13,6 +13,7 @@ type GooglePlaceResult = {
   userRatingCount?: number;
   googleMapsUri?: string;
   primaryTypeDisplayName?: { text: string };
+  location?: { latitude: number; longitude: number };
 };
 
 export async function searchGooglePlaces({ city, state, niche, limit = 20 }: { city: string; state: string; niche: string; limit?: number }): Promise<GooglePlacesCompany[]> {
@@ -36,10 +37,16 @@ export async function searchGooglePlaces({ city, state, niche, limit = 20 }: { c
         'places.rating',
         'places.userRatingCount',
         'places.googleMapsUri',
-        'places.primaryTypeDisplayName'
+        'places.primaryTypeDisplayName',
+        'places.location'
       ].join(',')
     },
-    body: JSON.stringify({ textQuery: query, maxResultCount: limit })
+    body: JSON.stringify({
+      textQuery: query,
+      maxResultCount: limit,
+      languageCode: 'pt-BR',
+      regionCode: 'BR'
+    })
   });
 
   if (!response.ok) {
@@ -61,6 +68,8 @@ export async function searchGooglePlaces({ city, state, niche, limit = 20 }: { c
     phone: place.nationalPhoneNumber,
     website: place.websiteUri,
     googleMapsUrl: place.googleMapsUri,
+    latitude: place.location?.latitude,
+    longitude: place.location?.longitude,
     googleRating: place.rating,
     googleReviews: place.userRatingCount,
     digital: { ...DEFAULT_DIGITAL, hasWebsite: Boolean(place.websiteUri) }
